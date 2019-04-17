@@ -1,6 +1,7 @@
 package algorithms.mazeGenerators;
 
 import java.util.Arrays;
+import java.util.Base64;
 
 public class Maze {
     private int maze [][];
@@ -119,6 +120,44 @@ public class Maze {
             }
             System.out.println();
         }
+    }
+
+    public byte[] toByteArray(){
+
+        byte[] BMaze = new byte[5 + 5 + 5 + 5 + 5 + 5 + (getRow() * getColumn())];
+        int rowNum = this.getRow();
+        int columnNum = this.getColumn();
+        int factor =10000;
+
+        BMaze = intToDigit(rowNum,BMaze, factor,0);
+        BMaze = intToDigit(columnNum,BMaze, factor,5);
+        BMaze = intToDigit(getStartPosition().getRowIndex(), BMaze,factor,10);
+        BMaze = intToDigit(getStartPosition().getColumnIndex(),BMaze,factor,15);
+        BMaze = intToDigit(getGoalPosition().getRowIndex(),BMaze,factor,20);
+        BMaze = intToDigit(getGoalPosition().getColumnIndex(),BMaze,factor,25);
+
+        for(int i = 0; i < getMaze().length; i ++)
+        {
+            for(int s = 0; s < getMaze()[0].length; s ++)
+            {
+                BMaze[(30 + (i * getMaze().length)) + s] = (byte) getMaze()[i][s];
+            }
+        }
+
+        return BMaze;
+
+    }
+
+    private byte[] intToDigit (int number, byte[] BArray,int factor, int cell){
+        int temp = 0;
+        while (factor >0){
+            temp = number / factor;
+            number = number % factor;
+            factor = factor / 10;
+            BArray[cell] = (byte) temp;
+            cell++;
+        }
+        return BArray;
     }
 
 }
