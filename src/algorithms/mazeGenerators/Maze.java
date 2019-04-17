@@ -33,6 +33,37 @@ public class Maze {
      * @param column the column of the maze
      */
 
+    public Maze(byte[] b) {
+        String s_Row = "" + b[0] + b[1] + b[2] + b[3] + b[4];
+        String s_Col = "" + b[5] + b[6] + b[7] + b[8] + b[9];
+        String s_XStart = "" + b[10] + b[11] + b[12] + b[13] + b[14];
+        String s_YStart = "" + b[15] + b[16] + b[17] + b[18] + b[19];
+        String s_XGoal = "" + b[20] + b[21] + b[22] + b[23] + b[24];
+        String s_YGoal = "" + b[25] + b[26] + b[27] + b[28] + b[29];
+        this.row = Integer.parseInt(s_Row);
+        this.column = Integer.parseInt(s_Col);
+        Position start = new Position(Integer.parseInt(s_XStart), Integer.parseInt(s_YStart));
+        Position goal = new Position(Integer.parseInt(s_XGoal), Integer.parseInt(s_YGoal));
+        this.startPostion = start;
+        this.goalPosition = goal;
+        this.maze = new int[row][column];
+        int r = 0;
+        int c = 0;
+        for (int i = 30; i < b.length; i++) {
+            while (r != this.row - 1 && c != this.column - 1) {
+                maze[r][c] = b[i];
+                //move by one to the right
+                if (r <= this.row - 1 && c != this.column - 1) {
+                    c++;
+                    //one line down
+                } else if (r < this.row - 1 && c == this.column - 1) {
+                    c = 0;
+                    r++;
+                }
+            }
+        }
+    }
+
     public Maze(int row, int column){
         //set default values if input is invalid
         if (row <=3 || column <=3) {
