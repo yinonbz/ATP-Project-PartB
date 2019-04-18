@@ -3,6 +3,8 @@ package IO;
 import java.io.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyDecompressorInputStream extends InputStream {
     InputStream in;
@@ -22,58 +24,31 @@ public class MyDecompressorInputStream extends InputStream {
         in.read(b);
 
         byte[] b2;
-        //byte[] b2 = new byte[b.length];
+        List<Byte> details = new ArrayList<>();
 
-        StringBuilder details = new StringBuilder("");
-
-        for (int i =0;i<30;i++){
-            details.append(b[i]);
+        for (int i = 0; i < 30; i++) {
+            details.add(b[i]);
         }
-        int counter =0;
-        int value = b[30];
-        int cell =30;
-        for(int i=30; i<b.length;i++){
-            if (i%2 ==0){
-                value = b[i];
+        int size2 = b.length;
+        byte value = 0;
+        for (int i = 30; i < b.length; i++) {
+            for (int j = 0; j < b[i]; j++) {
+                details.add(value);
             }
-            if(i%2 !=0){
-                for(int j=0;j<b[i];j++){
-                    details.append(value);
-                    cell = cell+b[i];
-                }
+            if (value ==0){
+                value =1;
+            }
+            else{
+                value =0;
             }
         }
 
-        /*for (int i =0;i<30;i++){
-            b2[i] = b[i];
+        int size = details.size();
+        for (int i = 0; i < size; i++) {
+            b[i] = details.get(i);
+            System.out.print(b[i]);
         }
-        int counter =0;
-        int value = b[30];
-        int cell =30;
-        for(int i=30; i<b.length;i++){
-            if (i%2 ==0){
-                value = b[i];
-            }
-            if(i%2 !=0){
-                for(int j=0;j<b[i];j++){
-                    b2[cell] = (byte)value;
-                    cell = cell+b[i];
-                }
-            }
-        } */
-        String maze = details.toString();
-        b2 = new byte[details.length()];
-        for(int i=0; i<maze.length();i++){
-            //int a = (int)details.charAt(i) - 48;
-            String str = Character.toString(details.charAt(i));
-            b2[i] = (byte) Integer.parseInt(str);
-        }
-
-        for(int i =0;i<b2.length;i++){
-            b[i] = b2[i];
-        }
-
-
+        System.out.println();
 
         // numOfRows - build a string from 5 first bytes and parse it to int
         // numOfCol - build a string from 5 next bytes and parse it to int
