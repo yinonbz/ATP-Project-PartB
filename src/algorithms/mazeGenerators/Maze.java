@@ -49,19 +49,22 @@ public class Maze {
         this.maze = new int[row][column];
         int r = 0;
         int c = 0;
-        for (int i = 30; i < b.length; i++) {
-            while (r != this.row - 1 && c != this.column - 1) {
-                maze[r][c] = b[i];
-                //move by one to the right
-                if (r <= this.row - 1 && c != this.column - 1) {
-                    c++;
-                    //one line down
-                } else if (r < this.row - 1 && c == this.column - 1) {
-                    c = 0;
-                    r++;
-                }
+        int i = 30;
+        //for (int i = 30; i < b.length; i++) {
+        while ((r != this.row - 1 || c != this.column - 1)) {
+            maze[r][c] = b[i];
+            i++;
+            //move by one to the right
+            if (r <= this.row - 1 && c != this.column - 1) {
+                c++;
+                //one line down
+            } else if (r < this.row - 1 && c == this.column - 1) {
+                c = 0;
+                r++;
             }
         }
+        maze[this.row - 1][this.column - 1] = b[b.length - 1];
+
     }
 
     public Maze(int row, int column){
